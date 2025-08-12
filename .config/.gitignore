@@ -1,0 +1,7 @@
+# Ignore everything
+
+/*
+!.gitignore
+
+# Except for the files and directories we want to track
+!nvim
