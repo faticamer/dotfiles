@@ -6,4 +6,10 @@
 # Except for the files and folders we want to track
 !README.md
 !LICENSE.md
-!.config
+!alacritty
+!assets
+!bashrc
+!gnome
+!nvim
+!starship
+!tmux
