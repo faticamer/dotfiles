@@ -37,7 +37,7 @@ add_alias() {
   echo -e "\nalias anvim='nvim \$(fzf -m --preview=\"batcat --color=always --style=numbers --line-range=:500 {}\")'" \
     >>~/.bashrc
 
-  echo -e "\nalias pnvim='rg var | fzf | cut -d\":\" -f 1 | xargs -n 1 nvim'" \
+  echo -e "\nalias xnvim='rg var | fzf | cut -d\":\" -f 1 | xargs -n 1 nvim'" \
     >>~/.bashrc
 
   echo -e '\nalias bat="batcat"' \
