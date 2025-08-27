@@ -1,0 +1,30 @@
+#    _____  .__                      .__  __    __
+#   /  _  \ |  | _____    ___________|__|/  |__/  |_ ___.__.
+#  /  /_\  \|  | \__  \ _/ ___\_  __ \  \   __\   __<   |  |
+# /    |    \  |__/ __ \\  \___|  | \/  ||  |  |  |  \___  |
+# \____|__  /____(____  /\___  >__|  |__||__|  |__|  / ____|
+#         \/          \/     \/                      \/
+
+
+[colors]
+cursor = { text = "CellBackground", cursor = "#d3c787"}
+
+[window]
+dimensions = { columns = 130, lines = 30 }
+padding = { x = 2, y = 2}
+opacity = 0.98
+
+[font]
+normal = { family = "Hack Nerd Font", style = "Regular" }
+bold = { family = "Hack Nerd Font", style = "Bold" }
+italic = { family = "Hack Nerd Font", style = "Italic" }
+size = 10
+
+[scrolling]
+history = 50000
+
+[mouse]
+hide_when_typing = true
+
+[selection]
+save_to_clipboard = true
