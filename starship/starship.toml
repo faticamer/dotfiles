@@ -6,7 +6,62 @@
 #         \/           \/           \/     \/   |__|
 #
 
+# format = '$os $all' # Uncomment when showing hostname
+format = '$all'
+
 add_newline = true
+
+palette = 'kanagawa'
+
+[palettes.kanagawa]
+color_fg = '#bf9663'
+color_brown = '#7f745b'
+color_gold = '#bfa95b'
+color_lightyellow = '#d4c787'
+color_turqoise = '#82c0af'
+color_blue = '#29526e'
+color_darkblue = '#171f40'
+color_orange = '#d65d0e'
 
 [character]
 success_symbol = '[➜](bold green)'
+error_symbol = '[✗](bold red) '
+
+[hostname]
+ssh_only = true # show hostname
+format = '[$ssh_symbol$hostname]($style) in '
+style = 'fg:color_brown'
+
+[os]
+disabled = true # show OS symbol
+style = 'fg:color_fg'
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+Debian = "󰣚"
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+cherry_pick = '[🍒PICKING](bold red)'
+
+[git_status]
+up_to_date = '✓'
+stashed = '📦'
+staged = '[++\($count\)](green)'
+deleted = '🗑'
+
+[directory.substitutions]
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[nodejs]
+symbol = " "
+
+[c]
+symbol = " "
+
+[golang]
+symbol = " "
