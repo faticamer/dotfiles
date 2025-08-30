@@ -37,10 +37,14 @@ add_alias() {
   echo -e "\nalias anvim='nvim \$(fzf -m --preview=\"batcat --color=always --style=numbers --line-range=:500 {}\")'" \
     >>~/.bashrc
 
-  echo -e "\nalias xnvim='rg var | fzf | cut -d\":\" -f 1 | xargs -n 1 nvim'" \
+  echo -e "\nalias xnvim='rg var | fzf | cut -d':' -f 1 | xargs -n 1 nvim'" \
     >>~/.bashrc
 
   echo -e '\nalias bat="batcat"' \
+    >>~/.bashrc
+
+  # evals
+  echo -e '\neval "$(zoxide init --cmd cd bash)"' \
     >>~/.bashrc
 
   source ~/.bashrc
@@ -81,44 +85,57 @@ cd || exit
 curl -LOk https://go.dev/dl/go1.25.0.linux-amd64.tar.gz
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf go1.25.0.linux-amd64.tar.gz
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >>~/.profile
 source ~/.profile
 typecheck go
 # --
 
-# Grab fd-find
+# Install fd-find
 echo "####### Installing fdfind #######"
 yes | sudo apt-get install fd-find &&
   typecheck fdfind
 
-# Grab fzf
+# Install fzf
 echo "####### Installing fzf #######"
 yes | sudo apt-get install fzf &&
   typecheck fzf
 
-# Grab python3
+# Install Python3
 echo "####### Installing Python #######"
 yes | sudo apt-get install python3 &&
   typecheck python3
 
-# Grab ripgrep
+# Install ripgrep
 echo "####### Installing Ripgrep #######"
 sudo apt-get install ripgrep &&
   typecheck rg
 
-# Grab Lazygit
+# Install Lazygit
 echo "####### Installing Lazygit #######"
 go install github.com/jesseduffield/lazygit@latest &&
   typecheck lazygit
 
-# Grab luarocks
+# Install luarocks
 echo "####### Installing Luarocks #######"
 yes | sudo apt-get install luarocks
+
+# Install zoxide
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+source ~/.bashrc
+
+# Install Starship manually...
+# curl -sS https://starship.rs/install.sh | sh
+# Add eval to the .bashrc manually
+# echo -e '\neval "$(starship init bash)"' \
+# >>~/.bashrc
 
 # -- Setup Git credentials
 # git config --global user.name $user
 # git config --global user.email $email
 # --
+
+# Update path
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin/:$HOME/.local/bin/" >>~/.profile
+source ~/.profile
 
 # Add some aliases
 add_alias
