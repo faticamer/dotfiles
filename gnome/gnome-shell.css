@@ -1,9 +1,10 @@
 #panel {
   background-color: rgba(0,0,0,0.5);
   margin: 5px 22px 5px 22px;
-  /* border: 2px solid #f5c2e7; */
-  border: 1px solid #313244;
+  border: 0.5px solid #56526e;
+  /* border: 0.5px solid #313244; */
   border-radius: 1.5em;
+  
 }
 
 #panel .panel-button {

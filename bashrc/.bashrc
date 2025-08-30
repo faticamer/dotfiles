@@ -1,3 +1,10 @@
+#   ___.                 .__
+#   \_ |__ _____    _____|  |_________   ____
+#    | __ \\__  \  /  ___/  |  \_  __ \_/ ___\
+#    | \_\ \/ __ \_\___ \|   Y  \  | \/\  \___
+# /\ |___  (____  /____  >___|  /__|    \___  >
+# \/     \/     \/     \/     \/            \/
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -91,6 +98,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias anvim='nvim $(fzf -m --preview="bat --color=always --style=numbers --line-range=:500 {}")'
+alias xnvim='rg var | fzf | cut -d':' -f 1 | xargs -n 1 nvim'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -118,7 +126,7 @@ fi
 
 eval "$(starship init bash)"
 
-export PATH=$PATH:/usr/local/go/bin
+export PATH="$PATH:/usr/local/go/bin:/home/amer/go/bin"
 export GOROOT=/usr/local/go
 
 export NVM_DIR="$HOME/.nvm"
@@ -127,3 +135,5 @@ export NVM_DIR="$HOME/.nvm"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 . "$HOME/.cargo/env"
+
+eval "$(zoxide init --cmd cd bash)"
