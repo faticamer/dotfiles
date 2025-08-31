@@ -127,7 +127,7 @@ if ! shopt -oq posix; then
 fi
 
 
-export PATH="$PATH:/usr/local/go/bin:/home/amer/go/bin"
+export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 export GOROOT=/usr/local/go
 
 export NVM_DIR="$HOME/.nvm"
@@ -137,5 +137,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 . "$HOME/.cargo/env"
 
-eval "$(zoxide init --cmd cd bash)"
 eval "$(starship init bash)"
+eval "$(zoxide init --cmd cd bash)"
