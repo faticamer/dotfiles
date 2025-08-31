@@ -97,6 +97,8 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+# nvim aliases
 alias anvim='nvim $(fzf -m --preview="bat --color=always --style=numbers --line-range=:500 {}")'
 alias xnvim='rg var | fzf | cut -d':' -f 1 | xargs -n 1 nvim'
 
@@ -124,7 +126,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-eval "$(starship init bash)"
 
 export PATH="$PATH:/usr/local/go/bin:/home/amer/go/bin"
 export GOROOT=/usr/local/go
@@ -137,3 +138,4 @@ export NVM_DIR="$HOME/.nvm"
 . "$HOME/.cargo/env"
 
 eval "$(zoxide init --cmd cd bash)"
+eval "$(starship init bash)"
