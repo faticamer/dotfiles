@@ -1,13 +1,13 @@
 return {
-  { "ellisonleao/gruvbox.nvim", opts = {
-    transparent_mode = true,
+  { "rebelot/kanagawa.nvim", opts = {
+    transparent = true,
   } },
 
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "kanagawa",
     },
   },
 }
