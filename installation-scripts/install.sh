@@ -7,7 +7,6 @@
 # /_______  /\___  >___  /__(____  /___|  /  / /     |______/  |___  /____/|___|  /__| |____/
 #         \/     \/    \/        \/     \/   \/                    \/           \/
 
-# Alacritty ones after pkg-config
 core_packages=("gcc" "make" "curl" "git" "tree" "xclip" "bat" "ranger" "libevent-dev"
   "libncurses-dev" "build-essential" "bison" "pkg-config" "cmake" "g++" "libfontconfig1-dev"
   "libxcb-xfixes0-dev" "libxkbcommon-dev")
@@ -94,7 +93,16 @@ typecheck go
 # -- Alacritty Installation
 echo "" | curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source ~/.bashrc
-cargo install alacritty
+git clone https://github.com/alacritty/alacritty.git
+rustup override set stable
+rustup update stable
+cd alacritty || exit
+cargo build --release
+sudo cp target/release/alacritty /usr/local/bin
+sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
+sudo desktop-file-install extra/linux/Alacritty.desktop
+sudo update-desktop-database
+gotoHome
 
 # Install fd-find
 echo "####### Installing fdfind #######"
