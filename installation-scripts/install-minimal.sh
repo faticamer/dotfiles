@@ -96,8 +96,9 @@ yes | sudo apt-get install fd-find &&
 
 # Install fzf
 echo "####### Installing fzf #######"
-yes | sudo apt-get install fzf &&
-  typecheck fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+typecheck fzf
 
 # Install Python3
 echo "####### Installing Python #######"
