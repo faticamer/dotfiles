@@ -6,6 +6,11 @@
 #         \/          \/     \/                      \/
 
 
+[general]
+import = [
+  "./themes/kanagawa_dragon.toml"
+]
+
 [colors]
 cursor = { text = "CellBackground", cursor = "#d3c787"}
 
