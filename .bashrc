@@ -126,7 +126,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
 export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 export GOROOT=/usr/local/go
 
