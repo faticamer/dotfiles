@@ -8,7 +8,7 @@
 #        \/          \/         \/
 
 core_packages=("gcc" "make" "curl" "git" "tree" "xclip" "bat" "ranger" "libevent-dev"
-  "libncurses-dev" "build-essential" "bison" "pkg-config")
+  "libncurses-dev" "build-essential" "bison" "pkg-config" "dconf-cli" "uuid-runtime")
 
 ensure_is_installed() {
   type "$1" >/dev/null 2>&1 || {

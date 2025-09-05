@@ -9,7 +9,7 @@
 
 core_packages=("gcc" "make" "curl" "git" "tree" "xclip" "bat" "ranger" "libevent-dev"
   "libncurses-dev" "build-essential" "bison" "pkg-config" "cmake" "g++" "libfontconfig1-dev"
-  "libxcb-xfixes0-dev" "libxkbcommon-dev")
+  "libxcb-xfixes0-dev" "libxkbcommon-dev" "dconf-cli" "uuid-runtime")
 
 ensure_is_installed() {
   type "$1" >/dev/null 2>&1 || {
