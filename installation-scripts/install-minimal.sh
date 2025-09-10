@@ -10,6 +10,8 @@
 core_packages=("gcc" "make" "curl" "git" "tree" "xclip" "bat" "ranger" "libevent-dev"
   "libncurses-dev" "build-essential" "bison" "pkg-config" "dconf-cli" "uuid-runtime")
 
+error_counter=0
+
 ensure_is_installed() {
   type "$1" >/dev/null 2>&1 || {
     echo "####### Installing missing package: $1 #######"
@@ -25,8 +27,9 @@ ensure_core_packages_are_installed() {
 
 typecheck() {
   type "$1" >/dev/null 2>&1 || {
-    echo "####### Binary not found: $1 #######"
-    echo -e "Failed to execute:\n$1\n" >>/tmp/install-minimal-logs.txt
+    echo "####### Binary not found: $1. #######"
+    echo -e "Failed to execute:\n$1\n" >>/tmp/install-minimal-logs
+    error_counter=$((error_counter+1))
   }
 }
 
@@ -98,6 +101,7 @@ yes | sudo apt-get install fd-find &&
 echo "####### Installing fzf #######"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
+mkdir -p ~/.cargo/bin # .fzf might not create it
 typecheck fzf
 
 # Install Python3
@@ -135,8 +139,13 @@ source ~/.bashrc
 # --
 
 # Update path
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin/:$HOME/.local/bin/" >>~/.profile
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin/:$HOME/.local/bin/:$HOME/.cargo/bin/" >>~/.profile
 source ~/.profile
+
+#Check errors
+if [$error_counter -gt 1]; then # 1 for tolerance
+  echo "export PATH=$PATH:/usr/local/go/bin:/$HOME/go/bin/:$HOME/.local/bin/:$HOME/.cargo/bin/" >>~/.bashrc
+  source ~/.bashrc
 
 # Add some aliases
 add_alias
@@ -145,3 +154,6 @@ add_alias
 echo " ####### Setting up TPM #######"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # --
+
+echo -e "\n####### Installation complete!!! #######"
+echo -e "\n####### NOTE: Install Starship manually. #######""
