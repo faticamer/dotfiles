@@ -156,4 +156,4 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # --
 
 echo -e "\n####### Installation complete!!! #######"
-echo -e "\n####### NOTE: Install Starship manually. #######""
+echo -e "\n####### NOTE: Install Starship manually. #######"
