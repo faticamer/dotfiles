@@ -58,7 +58,7 @@ add_alias() {
     echo -e "\nalias xnvim='rg var | fzf | cut -d':' -f 1 | xargs -n 1 nvim'"
     echo -e '\nalias bat="batcat"'
     echo -e "\neval '$(zoxide init --cmd cd bash)'"
-  }
+  } >>~/.bashrc
 }
 
 # -- Fetch repository package updates
@@ -68,6 +68,11 @@ sudo apt update && yes | sudo apt upgrade
 # -- Verify that core packages are present in the distro
 ensure_core_packages_are_installed
 # --
+
+if ! command -v curl >/dev/null 2>&1; then
+  echo "cURL has not been installed. Aborting."
+  exit 1
+fi
 
 # -- Grab tmux 3.5a tarball, unpack, and install
 echo "####### Setting up TMUX ... #######"
@@ -98,7 +103,7 @@ sudo tar -C /usr/local -xzf go1.25.0.linux-amd64.tar.gz
 
 # -- Alacritty Installation
 echo "" | curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source ~/.bashrc
+source_bashrc
 git clone https://github.com/alacritty/alacritty.git
 rustup override set stable
 rustup update stable
@@ -110,34 +115,34 @@ sudo desktop-file-install extra/linux/Alacritty.desktop
 sudo update-desktop-database
 gotoHome
 
+# Install zoxide
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+
 # Install fd-find
 echo "####### Installing fdfind #######"
-yes | sudo apt-get install fd-find &&
+yes | sudo apt-get install fd-find
 
-  # Install fzf
-  echo "####### Installing fzf #######"
+# Install fzf
+echo "####### Installing fzf #######"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 mkdir -p ~/.cargo/bin # .fzf might not create it
 
 # Install Python3
 echo "####### Installing Python #######"
-yes | sudo apt-get install python3 &&
+yes | sudo apt-get install python3
 
-  # Install ripgrep
-  echo "####### Installing Ripgrep #######"
-sudo apt-get install ripgrep &&
+# Install ripgrep
+echo "####### Installing Ripgrep #######"
+sudo apt-get install ripgrep
 
-  # Install Lazygit
-  echo "####### Installing Lazygit #######"
-go install github.com/jesseduffield/lazygit@latest &&
+# Install Lazygit
+echo "####### Installing Lazygit #######"
+go install github.com/jesseduffield/lazygit@latest
 
-  # Install luarocks
-  echo "####### Installing Luarocks #######"
+# Install luarocks
+echo "####### Installing Luarocks #######"
 yes | sudo apt-get install luarocks
-
-# Install zoxide
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 # Install Starship manually...
 # curl -sS https://starship.rs/install.sh | sh
@@ -158,7 +163,7 @@ source_profile
 # Typecheck all binaries
 perform_typechecks
 
-# Check errors
+# Check errors - if for some reason .profile is ignored, update .bashrc instead
 if [ $error_counter -gt 1 ]; then # 1 for tolerance
   echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin/:$HOME/.local/bin/:$HOME/.cargo/bin/" >>~/.bashrc
   source_bashrc

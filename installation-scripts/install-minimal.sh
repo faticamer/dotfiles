@@ -10,6 +10,7 @@
 core_packages=("gcc" "make" "curl" "git" "tree" "xclip" "bat" "ranger" "libevent-dev"
   "libncurses-dev" "build-essential" "bison" "pkg-config" "dconf-cli" "uuid-runtime")
 
+typecheck_packages=("tmux" "nvim" "fdfind" "fzf" "rg" "lazygit")
 error_counter=0
 
 ensure_is_installed() {
@@ -29,28 +30,35 @@ typecheck() {
   type "$1" >/dev/null 2>&1 || {
     echo "####### Binary not found: $1. #######"
     echo -e "Failed to execute:\n$1\n" >>/tmp/install-minimal-logs
-    error_counter=$((error_counter+1))
+    error_counter=$((error_counter + 1))
   }
+}
+
+perform_typechecks() {
+  for ((i = 0; i < ${#typecheck_packages[@]}; i++)); do
+    typecheck "${typecheck_packages[i]}"
+  done
+}
+
+source_profile() {
+  source ~/.profile
+}
+
+source_bashrc() {
+  source ~/.bashrc
 }
 
 add_alias() {
   # Note: if bat is installed thru apt, setting an alias
   # is not enough for fzf to find the binary, so the original package name
   # needs to be specified --batcat
-  echo -e "\nalias anvim='nvim \$(fzf -m --preview=\"batcat --color=always --style=numbers --line-range=:500 {}\")'" \
-    >>~/.bashrc
+  {
+    echo -e "\nalias anvim='nvim \$(fzf -m --preview=\"batcat --color=always --style=numbers --line-range=:500 {}\")'"
+    echo -e "\nalias xnvim='rg var | fzf | cut -d':' -f 1 | xargs -n 1 nvim'"
+    echo -e '\nalias bat="batcat"'
+    echo -e "\neval '$(zoxide init --cmd cd bash)'"
+  } >>~/.bashrc
 
-  echo -e "\nalias xnvim='rg var | fzf | cut -d':' -f 1 | xargs -n 1 nvim'" \
-    >>~/.bashrc
-
-  echo -e '\nalias bat="batcat"' \
-    >>~/.bashrc
-
-  # evals
-  echo -e '\neval "$(zoxide init --cmd cd bash)"' \
-    >>~/.bashrc
-
-  source ~/.bashrc
 }
 
 # -- Fetch repository package updates
@@ -61,13 +69,18 @@ sudo apt update && yes | sudo apt upgrade
 ensure_core_packages_are_installed
 # --
 
+# -- Don't proceed if cURL binary is missing
+if ! command -v curl >/dev/null 2>&1; then
+  echo "####### Failed!!! cURL has not been installed. Aborting. #######"
+  exit 1
+fi
+
 # -- Grab tmux 3.5a tarball, unpack, and install
 echo "####### Setting up TMUX ... #######"
 curl -L https://github.com/tmux/tmux/releases/download/3.5a/tmux-3.5a.tar.gz >~/tmux.tar.gz
-sudo tar -C $HOME -xzf ~/tmux.tar.gz
+sudo tar -C "$HOME" -xzf ~/tmux.tar.gz
 cd ~/tmux-3.5a && sudo ./configure && sudo make
 sudo make install
-typecheck tmux
 cd || exit
 # --
 
@@ -79,7 +92,6 @@ sudo cp nvim-linux-x86_64.appimage /usr/bin/nvim
 sudo chmod 775 /usr/bin/nvim
 rm nvim-linux-x86_64.appimage
 cd || exit
-typecheck nvim
 # --
 
 # -- Go Installation
@@ -89,35 +101,29 @@ curl -LOk https://go.dev/dl/go1.25.0.linux-amd64.tar.gz
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf go1.25.0.linux-amd64.tar.gz
 source ~/.profile
-typecheck go
 # --
 
 # Install fd-find
 echo "####### Installing fdfind #######"
-yes | sudo apt-get install fd-find &&
-  typecheck fdfind
+yes | sudo apt-get install fd-find
 
 # Install fzf
 echo "####### Installing fzf #######"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 mkdir -p ~/.cargo/bin # .fzf might not create it
-typecheck fzf
 
 # Install Python3
 echo "####### Installing Python #######"
-yes | sudo apt-get install python3 &&
-  typecheck python3
+yes | sudo apt-get install python3
 
 # Install ripgrep
 echo "####### Installing Ripgrep #######"
-sudo apt-get install ripgrep &&
-  typecheck rg
+sudo apt-get install ripgrep
 
 # Install Lazygit
 echo "####### Installing Lazygit #######"
-go install github.com/jesseduffield/lazygit@latest &&
-  typecheck lazygit
+go install github.com/jesseduffield/lazygit@latest
 
 # Install luarocks
 echo "####### Installing Luarocks #######"
@@ -125,7 +131,6 @@ yes | sudo apt-get install luarocks
 
 # Install zoxide
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-source ~/.bashrc
 
 # Install Starship manually...
 # curl -sS https://starship.rs/install.sh | sh
@@ -140,12 +145,17 @@ source ~/.bashrc
 
 # Update path
 echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin/:$HOME/.local/bin/:$HOME/.cargo/bin/" >>~/.profile
-source ~/.profile
 
-#Check errors
-if [$error_counter -gt 1]; then # 1 for tolerance
+source_profile
+
+# Typecheck all binaries
+perform_typechecks
+
+# Check errors - if for some reason .profile is ignored, update .bashrc instead
+if [ $error_counter -gt 1 ]; then
   echo "export PATH=$PATH:/usr/local/go/bin:/$HOME/go/bin/:$HOME/.local/bin/:$HOME/.cargo/bin/" >>~/.bashrc
-  source ~/.bashrc
+  source_bashrc
+fi
 
 # Add some aliases
 add_alias
