@@ -1,11 +1,11 @@
 # Dotfiles
 
-First clone this repo in your home directory:
+First clone this repo to your home directory:
 ```git
 git clone https://github.com/faticamer/dotfiles.git ~/dotfiles
 ```
 
-Make sure you have GNU Stow installed, then simply run:
+Make sure you have [GNU Stow](https://www.gnu.org/software/stow/) installed, then simply run:
 ```bash
 stow .
 ```
