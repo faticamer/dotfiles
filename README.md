@@ -24,8 +24,6 @@ I am using **kanagawa** color scheme for most of the tools. You can find some sc
 > [!NOTE]
 > You can remove `.stow-local-ignore` file. Make sure to `rm -r` directories **installation-scripts** and **assets**. GNU Stow will then revert back to the global `.stow-global-ignore` file.
 
----
-
 ## Gallery
 ![Tmux, Lazygit, btop, neofetch](./assets/screenshots/term_1.png)
 🖼️ [**term_1.png**](./assets/screenshots/term_1.png)
