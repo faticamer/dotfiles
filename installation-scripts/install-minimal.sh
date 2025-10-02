@@ -86,8 +86,7 @@ cd || exit
 
 # -- Grab the latest NeoVim AppImage...
 echo "####### Setting up NeoVim ... #######"
-curl -L https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage >~/Downloads/nvim-linux-x86_64.appimage
-cd ~/Downloads || exit
+curl -L https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage >~/nvim-linux-x86_64.appimage
 sudo cp nvim-linux-x86_64.appimage /usr/bin/nvim
 sudo chmod 775 /usr/bin/nvim
 rm nvim-linux-x86_64.appimage
